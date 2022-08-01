@@ -1,0 +1,38 @@
+version: "3.7"
+services:
+  postgres:
+    image: postgres:latest
+    container_name: postgres
+    environment:
+      - POSTGRES_USER=${DB_USER}  
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_NAME}
+      - DATABASE_HOST=${DB_HOST} 
+    ports:
+      - '5432:5432'
+    volumes:
+      - db:/var/lib/postgresql/data
+  
+  app:
+    image: backend
+    container_name: app
+    environment:
+      - DB_USER=${DB_USER}  
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_NAME=${DB_NAME}
+      - DB_HOST=${DB_HOST} 
+    build: ./backend
+    ports: 
+      - '50000:50000'
+    restart: on-failure
+    depends_on:
+      - postgres
+  frontend: 
+    build: ./frontend
+    image: frontend
+    ports: 
+      - "5000:5000"
+    depends_on: 
+      - app
+volumes:
+  db:
