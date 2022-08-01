@@ -25,20 +25,6 @@ jobs:
          username: ${{ secrets.DOCKERHUB_USERNAME }}
          password: ${{ secrets.DOCKERHUB_TOKEN }}
     -
-        name: Build and push backedn
-        uses: docker/build-push-action@v3
-        with:
-          context: ./backend
-          push: true
-          tags: api
-    -
-        name: Build and push frontend
-        uses: docker/build-push-action@v3
-        with:
-          context: ./frontend
-          push: true
-          tags: frontend
-    -
       name: run integration testing
       run: |
-        go test
+        go test ./backend
