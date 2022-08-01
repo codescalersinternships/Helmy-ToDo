@@ -42,6 +42,7 @@ func (a *App) SetupRoutes() {
 	
 }
 
+
 func main() {
 	DB_USER := os.Getenv("DB_USER")
 	DB_PASSWORD := os.Getenv("DB_PASSWORD")
