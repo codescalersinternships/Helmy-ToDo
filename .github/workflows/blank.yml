@@ -27,4 +27,5 @@ jobs:
     -
       name: run integration testing
       run: |
-        go test ./backend
+        cd backend
+        go test
