@@ -1,0 +1,245 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Todo",
+    "description": "Todo API",
+    "version": "1.0"
+  },
+  "servers": [
+    {
+      "url": "/"
+    }
+  ],
+  "paths": {
+    "/home": {
+      "get": {
+        "tags": [
+          "tasks"
+        ],
+        "summary": "get all tasks",
+        "operationId": "getTasks",
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          }
+        }
+      }
+    },
+    "/task/{taskId}": {
+      "get": {
+        "tags": [
+          "task"
+        ],
+        "summary": "get a specific task by id",
+        "operationId": "getTaskById",
+        "parameters": [
+          {
+            "name": "taskId",
+            "in": "path",
+            "description": "task id",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "404": {
+            "description": "Invalid ID supplied"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "task"
+        ],
+        "summary": "Updates a task with a specific id",
+        "operationId": "updateTaskById",
+        "parameters": [
+          {
+            "name": "taskId",
+            "in": "path",
+            "description": "task id",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Updating a task by id",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Todo"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Task Updated Successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Todo"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Todo"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Invalid input"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "task"
+        ],
+        "summary": "Deletes a task",
+        "operationId": "deleteTask",
+        "parameters": [
+          {
+            "name": "taskId",
+            "in": "path",
+            "description": "delete a task by Id",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "deleted successfully"
+          },
+          "404": {
+            "description": "Invalid ID supplied"
+          }
+        }
+      }
+    },
+    "/task/{taskStatus}": {
+      "get": {
+        "tags": [
+          "task"
+        ],
+        "summary": "get all tasks with a specific status",
+        "operationId": "getTasksByStatus",
+        "parameters": [
+          {
+            "name": "taskStatus",
+            "in": "path",
+            "description": "Task Status",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "404": {
+            "description": "Invalid Status Supplied"
+          }
+        }
+      }
+    },
+    "/task": {
+      "post": {
+        "tags": [
+          "task"
+        ],
+        "summary": "add a new task",
+        "operationId": "addTask",
+        "requestBody": {
+          "description": "Seuccessfully Added",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Todo"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Task Created Successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Todo"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Todo"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Invalid Task Input"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Todo": {
+        "required": [
+          "id",
+          "status",
+          "title"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "the todo id",
+            "format": "int64"
+          },
+          "title": {
+            "type": "integer",
+            "description": "the todo title",
+            "format": "int32"
+          },
+          "status": {
+            "type": "string",
+            "description": "the todo status",
+            "enum": [
+              "pending",
+              "done"
+            ]
+          }
+        },
+        "xml": {
+          "name": "Todo"
+        }
+      }
+    }
+  }
+}
