@@ -33,14 +33,13 @@ jobs:
       name: run docker compose
       run: |
         docker-compose up --build -d
-    -     
-     name: cypress-run:
-     runs-on: ubuntu-20.04
-     steps:
-      - uses: actions/checkout@v2
-      - uses: cypress-io/github-action@v2
+  cypress-run:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Cypress run
+        uses: cypress-io/github-action@v4
         with:
-          wait-on: "http://localhost:50000"
-          browser: chrome
-          headless: true
-        
+          build: npm run build
+          start: npm start
