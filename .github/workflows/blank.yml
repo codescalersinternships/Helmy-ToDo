@@ -33,13 +33,9 @@ jobs:
       name: run docker compose
       run: |
         docker-compose up --build -d
-  cypress-run:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Cypress run
-        uses: cypress-io/github-action@v4
-        with:
-          build: npm run build
-          start: npm start
+    -
+        name: Build and push backend
+        run: cd backend
+    -   
+        name: check dir
+        run: pwd
