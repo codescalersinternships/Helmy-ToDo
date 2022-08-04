@@ -23,7 +23,9 @@ jobs:
     -
     
         name: Integration test stage
-        run: go test ./backend
+        run: |
+          - cd backend
+          - go test
     
     -
         name: Build and push backend image
