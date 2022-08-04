@@ -14,8 +14,29 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     -
-        name: Build and push backend
-        run: cd backend
-    -   
-        name: check dir
-        run: pwd
+        name: Login to DockerHub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+    
+    -
+    
+        name: Integration test stage
+        run: go test ./backend
+    
+    -
+        name: Build and push backend image
+        uses: docker/build-push-action@v3
+        with:
+          context: ./backend
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/todo-be:latest
+    -
+        name: Build and push frontend image
+        uses: docker/build-push-action@v3
+        with:
+          context: ./frontend
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/todo-fe:latest
+    
